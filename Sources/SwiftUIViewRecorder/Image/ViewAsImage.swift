@@ -13,7 +13,7 @@ extension UIView {
     public func asImage(afterScreenUpdates: Bool = true) -> UIImage {
         let format = UIGraphicsImageRendererFormat.default()
         format.opaque = true
-        format.scale = UIScreen.main.scale
+        format.scale = 1.0
 
         let renderer = UIGraphicsImageRenderer(bounds: bounds, format: format)
         return renderer.image { rendererContext in
