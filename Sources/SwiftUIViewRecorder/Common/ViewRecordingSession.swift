@@ -108,7 +108,7 @@ public class ViewRecordingSession<Asset>: ViewAssetRecordingSession {
                 if self.useSnapshots, let snapshotView = uiView.snapshotView(afterScreenUpdates: false) {
                     self.frames.append(ViewFrame(snapshot: snapshotView))
                 } else {
-                    self.frames.append(ViewFrame(image: uiView.asImage(afterScreenUpdates: false)))
+                    self.frames.append(ViewFrame(image: createImageFromView(captureView: uiView)))
                 }
                 
                 if (self.allFramesCaptured) {
@@ -117,6 +117,17 @@ public class ViewRecordingSession<Asset>: ViewAssetRecordingSession {
             }
         }
     }
+    
+    func createImageFromView(captureView : UIView) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(captureView.bounds.size, false, 0)
+        captureView.drawViewHierarchyInRect(captureView.bounds, afterScreenUpdates: false)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext();
+                
+        UIGraphicsEndImageContext();
+        return image
+    }
+
     
     private func generateAsset() -> Void {
         assetGenerationCancellable?.cancel()
