@@ -15,10 +15,21 @@ extension UIView {
         format.opaque = true
         format.scale = 1.0
 
-        let renderer = UIGraphicsImageRenderer(bounds: bounds, format: format)
+        let renderer = UIGraphicsImageRendererProvider.getRenderer() UIGraphicsImageRenderer(bounds: bounds, format: format)
         return renderer.image { rendererContext in
             drawHierarchy(in: bounds, afterScreenUpdates: afterScreenUpdates)
         }
+    }
+}
+
+public class UIGraphicsImageRendererProvider {
+    public static var shared:UIGraphicsImageRenderer
+    
+    public static func getRenderer(bounds:BOunds) -> UIGraphicsImageRenderer {
+        if shared == nil {
+            shared = UIGraphicsImageRenderer(bounds: bounds, format: format)
+        }
+        return shared
     }
 }
 
